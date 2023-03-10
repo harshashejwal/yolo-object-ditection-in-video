@@ -1,0 +1,25 @@
+from google.colab import drive
+drive.mount('/content/gdrive')
+# make sure you use Tesla K80 GPU (12GB), by changing 'runtmie type' 
+!nvidia-smi
+import os
+os.environ['PATH'] += ':/usr/local/cuda/bin'
+!rm -fr darknet
+!git clone https://github.com/AlexeyAB/darknet/
+!apt install gcc-5 g++-5 -y
+!ln -s /usr/bin/gcc-5 /usr/local/cuda/bin/gcc 
+!ln -s /usr/bin/g++-5 /usr/local/cuda/bin/g++
+%cd darknet
+!sed -i 's/GPU=0/GPU=1/g' Makefile
+!sed -i 's/OPENCV=0/OPENCV=1/g' Makefile
+!make
+!wget https://pjreddie.com/media/files/yolov3.weights
+!chmod a+x ./darknet
+!pwd
+from google.colab import drive
+drive.mount('/content/drive')
+from google.colab import files
+
+uploaded = files.upload()
+from google.colab import files
+files.download('output1.avi')
